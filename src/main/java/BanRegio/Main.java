@@ -98,7 +98,7 @@ public class Main
                         BanRegioApiHelper.ApiEnvironment.Sandbox,
                         token);
 
-                System.out.println("El token adquirido es: " + token);
+                System.out.println("\nEl token adquirido es: " + token);
 
                 while(!input.equals("5"))
                 {

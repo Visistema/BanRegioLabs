@@ -49,8 +49,9 @@ public class BanRegioTokenHelper
         try
         {
             OAuthClientRequest request = OAuthClientRequest
-                    .authorizationLocation(baseUri + "oauth/authorize")
+                    .authorizationLocation(baseUri + "/oauth/authorize")
                     .setClientId(this.clientId)
+                    .setResponseType("code")
                     .setRedirectURI(this.redirectUri)
                     .buildQueryMessage();
 
@@ -70,13 +71,14 @@ public class BanRegioTokenHelper
         {
             OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
             OAuthClientRequest request = OAuthClientRequest
-                    .tokenLocation(baseUri + "oauth/token")
+                    .tokenLocation(baseUri + "/oauth/token")
                     .setGrantType(GrantType.CLIENT_CREDENTIALS)
                     .setClientId(this.clientId)
                     .setClientSecret(this.clientSecret)
-                    .buildQueryMessage();
+                    .buildBodyMessage();
 
             request.setHeader("User-Agent", "my-user-agent-name");
+            request.setLocationUri(request.getLocationUri() + "/");
 
             String accessToken = oAuthClient
                     .accessToken(request, OAuthJSONAccessTokenResponse.class)
@@ -101,15 +103,16 @@ public class BanRegioTokenHelper
         {
             OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
             OAuthClientRequest request = OAuthClientRequest
-                    .tokenLocation(baseUri + "oauth/token")
+                    .tokenLocation(baseUri + "/oauth/token")
                     .setGrantType(GrantType.AUTHORIZATION_CODE)
                     .setClientId(this.clientId)
                     .setClientSecret(this.clientSecret)
                     .setRedirectURI(this.redirectUri)
                     .setCode(authorizationCode)
-                    .buildQueryMessage();
+                    .buildBodyMessage();
 
             request.setHeader("User-Agent", "my-user-agent-name");
+            request.setLocationUri(request.getLocationUri() + "/");
 
             String accessToken = oAuthClient
                     .accessToken(request, OAuthJSONAccessTokenResponse.class)
